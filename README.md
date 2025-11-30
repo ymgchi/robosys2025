@@ -1,29 +1,41 @@
-# ecosystem
+# imperial
 
 ![test](https://github.com/ymgchi/robosys2025/actions/workflows/test.yml/badge.svg)
 
-ロトカ=ヴォルテラ方程式を用いた生態系シミュレータ。捕食者(クマ)と被食者(サケ)の個体数変動をシミュレーションし, 生態系が安定するか絶滅するかを判定する。
+ヤードポンド法からメートル法への単位変換コマンド。
 
 ## 使い方
 
 ```bash
-$ echo "初期クマ数 初期サケ数" | ./ecosystem [ステップ数]
+$ echo "単位 数値" | ./imperial
 ```
 
 ### 例
 
 ```bash
-$ echo "1000 10" | ./ecosystem 30000
-STABLE: bear=1000.0 salmon=10.0
+$ echo "yard 1" | ./imperial
+0.9144 m (= 91.44 cm)
+
+$ echo "inch 12" | ./imperial
+30.48 cm (= 304.8 mm)
+
+$ echo "lb 10" | ./imperial
+4.536 kg (= 4536 g)
+
+$ echo "feet 6" | ./imperial
+1.829 m (= 182.9 cm)
 ```
 
-```bash
-$ echo "1 10" | ./ecosystem 30000
-EXTINCT: salmon died at time=0.600
-```
+## 対応単位
 
-- `STABLE`: 生態系が安定した状態で維持
-- `EXTINCT`: いずれかの種が絶滅
+| 入力 | 出力 |
+|------|------|
+| yard, yd | m |
+| feet, foot, ft | m |
+| inch, in | cm |
+| mile, mi | km |
+| lb, pound | kg |
+| oz, ounce | g |
 
 ## 必要なソフトウェア
 

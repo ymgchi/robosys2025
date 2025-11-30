@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: 2025 Takumi Yamaguchi
+# SPDX-License-Identifier: BSD-3-Clause
+
+import sys
+
+# 変換テーブル: (変換係数, 出力単位, 副単位係数, 副単位)
+CONVERSIONS = {
+    'yard': (0.9144, 'm', 100, 'cm'),
+    'yd': (0.9144, 'm', 100, 'cm'),
+    'feet': (0.3048, 'm', 100, 'cm'),
+    'foot': (0.3048, 'm', 100, 'cm'),
+    'ft': (0.3048, 'm', 100, 'cm'),
+    'inch': (2.54, 'cm', 10, 'mm'),
+    'in': (2.54, 'cm', 10, 'mm'),
+    'mile': (1.60934, 'km', 1000, 'm'),
+    'mi': (1.60934, 'km', 1000, 'm'),
+    'lb': (0.453592, 'kg', 1000, 'g'),
+    'pound': (0.453592, 'kg', 1000, 'g'),
+    'oz': (28.3495, 'g', 0.001, 'kg'),
+    'ounce': (28.3495, 'g', 0.001, 'kg'),
+}
+
+def main():
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+
+        parts = line.split()
+        if len(parts) != 2:
+            print("エラー: 「単位 数値」の形式で入力してください (例: yard 1)", file=sys.stderr)
+            sys.exit(1)
+
+        unit = parts[0].lower()
+        try:
+            value = float(parts[1])
+        except ValueError:
+            print("エラー: 数値を入力してください", file=sys.stderr)
+            sys.exit(1)
+
+        if unit not in CONVERSIONS:
+            units = ', '.join(sorted(set(CONVERSIONS.keys())))
+            print(f"エラー: 未対応の単位です。対応単位: {units}", file=sys.stderr)
+            sys.exit(1)
+
+        factor, out_unit, sub_factor, sub_unit = CONVERSIONS[unit]
+        result = value * factor
+        sub_result = result * sub_factor
+        print(f"{result:.4g} {out_unit} (= {sub_result:.4g} {sub_unit})")
+
+if __name__ == "__main__":
+    main()

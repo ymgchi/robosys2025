@@ -9,31 +9,45 @@ ng () {
 
 res=0
 
-### 正常入力: 平衡点付近（安定） ###
-out=$(echo "1000 10" | ./ecosystem 30000)
-echo "$out" | grep -q "^STABLE:" || ng "$LINENO"
+### 正常入力: 長さ変換 ###
+out=$(echo "yard 1" | ./imperial)
+[ "${out}" = "0.9144 m (= 91.44 cm)" ] || ng "$LINENO"
 
-### 正常入力: 絶滅ケース ###
-out=$(echo "1 10" | ./ecosystem 30000)
-echo "$out" | grep -q "^EXTINCT:" || ng "$LINENO"
+out=$(echo "inch 12" | ./imperial)
+[ "${out}" = "30.48 cm (= 304.8 mm)" ] || ng "$LINENO"
 
-### 異常入力: 数値以外 ###
-out=$(echo "abc" | ./ecosystem 2>/dev/null)
+out=$(echo "feet 6" | ./imperial)
+[ "${out}" = "1.829 m (= 182.9 cm)" ] || ng "$LINENO"
+
+out=$(echo "mile 1" | ./imperial)
+[ "${out}" = "1.609 km (= 1609 m)" ] || ng "$LINENO"
+
+### 正常入力: 重さ変換 ###
+out=$(echo "lb 10" | ./imperial)
+[ "${out}" = "4.536 kg (= 4536 g)" ] || ng "$LINENO"
+
+out=$(echo "oz 1" | ./imperial)
+[ "${out}" = "28.35 g (= 0.02835 kg)" ] || ng "$LINENO"
+
+### 正常入力: 省略形 ###
+out=$(echo "yd 1" | ./imperial)
+[ "${out}" = "0.9144 m (= 91.44 cm)" ] || ng "$LINENO"
+
+out=$(echo "ft 6" | ./imperial)
+[ "${out}" = "1.829 m (= 182.9 cm)" ] || ng "$LINENO"
+
+### 異常入力: 未対応の単位 ###
+out=$(echo "xyz 10" | ./imperial 2>/dev/null)
 [ "$?" = 1 ]      || ng "$LINENO"
 [ "${out}" = "" ] || ng "$LINENO"
 
-### 異常入力: 空入力 ###
-out=$(echo "" | ./ecosystem 2>/dev/null)
+### 異常入力: 数値でない ###
+out=$(echo "yard abc" | ./imperial 2>/dev/null)
 [ "$?" = 1 ]      || ng "$LINENO"
 [ "${out}" = "" ] || ng "$LINENO"
 
-### 異常入力: 負の数 ###
-out=$(echo "-1 10" | ./ecosystem 2>/dev/null)
-[ "$?" = 1 ]      || ng "$LINENO"
-[ "${out}" = "" ] || ng "$LINENO"
-
-### 異常入力: 引数が1つだけ ###
-out=$(echo "100" | ./ecosystem 2>/dev/null)
+### 異常入力: 形式が違う ###
+out=$(echo "yard" | ./imperial 2>/dev/null)
 [ "$?" = 1 ]      || ng "$LINENO"
 [ "${out}" = "" ] || ng "$LINENO"
 
