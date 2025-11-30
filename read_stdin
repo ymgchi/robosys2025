@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+    word = line.strip()
+    print(word + " を標準入力から読んだよ")

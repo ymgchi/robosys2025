@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/ymgchi/dev/robosys/./plus_stdin", line 8, in <module>
+    ans += float(line)
+ValueError: could not convert string to float: 'あ\n'
