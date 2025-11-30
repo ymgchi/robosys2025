@@ -9,16 +9,31 @@ ng () {
 
 res=0
 
-### NORMAL INPUT ###
-out=$(seq 5 | ./plus)
-[ "${out}" = 15 ] || ng "$LINENO"
+### 正常入力: 平衡点付近（安定） ###
+out=$(echo "1000 10" | ./ecosystem 30000)
+echo "$out" | grep -q "^STABLE:" || ng "$LINENO"
 
-### STRANGE INPUT ###
-out=$(echo あ | ./plus)
+### 正常入力: 絶滅ケース ###
+out=$(echo "1 10" | ./ecosystem 30000)
+echo "$out" | grep -q "^EXTINCT:" || ng "$LINENO"
+
+### 異常入力: 数値以外 ###
+out=$(echo "abc" | ./ecosystem 2>/dev/null)
 [ "$?" = 1 ]      || ng "$LINENO"
 [ "${out}" = "" ] || ng "$LINENO"
 
-out=$(echo | ./plus)
+### 異常入力: 空入力 ###
+out=$(echo "" | ./ecosystem 2>/dev/null)
+[ "$?" = 1 ]      || ng "$LINENO"
+[ "${out}" = "" ] || ng "$LINENO"
+
+### 異常入力: 負の数 ###
+out=$(echo "-1 10" | ./ecosystem 2>/dev/null)
+[ "$?" = 1 ]      || ng "$LINENO"
+[ "${out}" = "" ] || ng "$LINENO"
+
+### 異常入力: 引数が1つだけ ###
+out=$(echo "100" | ./ecosystem 2>/dev/null)
 [ "$?" = 1 ]      || ng "$LINENO"
 [ "${out}" = "" ] || ng "$LINENO"
 

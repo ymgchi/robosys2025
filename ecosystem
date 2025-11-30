@@ -1,0 +1,63 @@
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: 2025 Takumi Yamaguchi
+# SPDX-License-Identifier: BSD-3-Clause
+
+import sys
+
+def simulate(bear, salmon, steps, dt=0.001):
+    """ロトカ=ヴォルテラ方程式による生態系シミュレーション"""
+    for i in range(steps):
+        vx = -1 * bear + 0.1 * bear * salmon
+        vy = 10 * salmon - 0.01 * bear * salmon
+        bear = bear + vx * dt
+        salmon = salmon + vy * dt
+        t = (i + 1) * dt
+
+        # 絶滅判定（個体数が0.01未満）
+        if bear < 0.01:
+            return ("EXTINCT", "bear", t, bear, salmon)
+        if salmon < 0.01:
+            return ("EXTINCT", "salmon", t, bear, salmon)
+
+    return ("STABLE", None, t, bear, salmon)
+
+def main():
+    # 引数からステップ数を取得（デフォルト: 30000）
+    steps = 30000
+    if len(sys.argv) >= 2:
+        try:
+            steps = int(sys.argv[1])
+        except ValueError:
+            print("エラー: ステップ数は整数で指定してください", file=sys.stderr)
+            sys.exit(1)
+
+    # 標準入力から初期値を読み込み
+    try:
+        line = sys.stdin.readline().strip()
+        if not line:
+            print("エラー: 初期値を入力してください (例: 1 10)", file=sys.stderr)
+            sys.exit(1)
+        parts = line.split()
+        if len(parts) != 2:
+            print("エラー: 初期値は2つの数値で指定してください (例: 1 10)", file=sys.stderr)
+            sys.exit(1)
+        bear = float(parts[0])
+        salmon = float(parts[1])
+    except ValueError:
+        print("エラー: 数値を入力してください", file=sys.stderr)
+        sys.exit(1)
+
+    if bear <= 0 or salmon <= 0:
+        print("エラー: 初期値は正の数で指定してください", file=sys.stderr)
+        sys.exit(1)
+
+    # シミュレーション実行
+    result, species, t, bear_final, salmon_final = simulate(bear, salmon, steps)
+
+    if result == "EXTINCT":
+        print(f"EXTINCT: {species} died at t={t:.3f}")
+    else:
+        print(f"STABLE: bear={bear_final:.1f} salmon={salmon_final:.1f}")
+
+if __name__ == "__main__":
+    main()
