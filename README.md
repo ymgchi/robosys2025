@@ -19,7 +19,7 @@ STABLE: bear=1000.0 salmon=10.0
 
 ```bash
 $ echo "1 10" | ./ecosystem 30000
-EXTINCT: salmon died at t=0.600
+EXTINCT: salmon died at time=0.600
 ```
 
 - `STABLE`: 生態系が安定した状態で維持

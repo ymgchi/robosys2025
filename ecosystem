@@ -55,7 +55,7 @@ def main():
     result, species, t, bear_final, salmon_final = simulate(bear, salmon, steps)
 
     if result == "EXTINCT":
-        print(f"EXTINCT: {species} died at t={t:.3f}")
+        print(f"EXTINCT: {species} died at time={t:.3f}")
     else:
         print(f"STABLE: bear={bear_final:.1f} salmon={salmon_final:.1f}")
 
