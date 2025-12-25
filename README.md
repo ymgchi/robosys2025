@@ -14,16 +14,16 @@ $ echo "単位 数値" | ./imperial
 
 ```bash
 $ echo "yard 1" | ./imperial
-0.9144 m (= 91.44 cm)
+0.9144 m 91.44 cm
 
 $ echo "inch 12" | ./imperial
-30.48 cm (= 304.8 mm)
+30.48 cm 304.8 mm
 
 $ echo "lb 10" | ./imperial
-4.536 kg (= 4536 g)
+4.536 kg 4536 g
 
 $ echo "feet 6" | ./imperial
-1.829 m (= 182.9 cm)
+1.829 m 182.9 cm
 ```
 
 ## 対応単位
@@ -44,7 +44,8 @@ $ echo "feet 6" | ./imperial
 
 ## テスト環境
 
-- Ubuntu 22.04 LTS
+- Ubuntu 22.04 LTS（ローカル）
+- Ubuntu 24.04 LTS（GitHub Actions）
 
 ## ライセンス
 

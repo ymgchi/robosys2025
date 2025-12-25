@@ -47,7 +47,7 @@ def main():
         factor, out_unit, sub_factor, sub_unit = CONVERSIONS[unit]
         result = value * factor
         sub_result = result * sub_factor
-        print(f"{result:.4g} {out_unit} (= {sub_result:.4g} {sub_unit})")
+        print(f"{result:.4g} {out_unit} {sub_result:.4g} {sub_unit}")
 
 if __name__ == "__main__":
     main()
