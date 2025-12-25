@@ -45,7 +45,7 @@ $ echo "feet 6" | ./imperial
 ## テスト環境
 
 - Ubuntu 22.04 LTS（ローカル）
-- Ubuntu 24.04 LTS（GitHub Actions）
+- Ubuntu 22.04 LTS（GitHub Actions）
 
 ## ライセンス
 
